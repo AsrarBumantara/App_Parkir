@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, teal 0%, cadetblue 100%);
+            background: linear-gradient(135deg, #1a2a3a 0%, #2c3e50 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -65,62 +65,100 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .login-container {
-            background: antiquewhite;
+            background: #e8f4f8;
             padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
             width: 100%;
             max-width: 400px;
         }
 
+        .login-logo {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .login-logo .icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2E3440, #3b4a5a);
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 14px rgba(46, 52, 64, 0.3);
+        }
+
         h2 {
             text-align: center;
-            color: #333;
-            margin-bottom: 30px;
+            color: #2E3440;
+            margin-bottom: 4px;
+            font-size: 22px;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: #aaa;
+            font-size: 13px;
+            margin-bottom: 28px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             color: #555;
             font-weight: bold;
+            font-size: 13px;
         }
 
         input[type="text"],
         input[type="password"] {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #D6C4B2;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            padding: 12px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: #fafafa;
         }
 
         input[type="text"]:focus,
         input[type="password"]:focus {
-            border-color: #3A8F7A;
+            border-color: #2E3440;
+            background: white;
             outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 52, 64, 0.1);
         }
 
         button {
             width: 100%;
-            padding: 12px;
-            background: #2E3440;
+            padding: 13px;
+            background: linear-gradient(135deg, #2E3440, #3b4a5a);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(46, 52, 64, 0.3);
+            margin-top: 6px;
         }
 
         button:hover {
-            background: #3B4252;
+            background: linear-gradient(135deg, #3b4a5a, #4a5a6a);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(46, 52, 64, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
 
         .info {
@@ -140,7 +178,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <div class="login-container">
+        <div class="login-logo">
+            <div class="icon">🅿️</div>
+        </div>
         <h2>Aplikasi Parkir</h2>
+        <p class="login-subtitle">Masuk untuk melanjutkan</p>
         <form method="POST" action="">
             <div class="form-group">
                 <label>Username</label>

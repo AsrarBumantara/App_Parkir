@@ -3,7 +3,8 @@ require '../koneksi.php';
 checkRole(['petugas']);
 
 // Fungsi untuk format durasi dalam jam dan menit
-function formatDurasi($sec){
+function formatDurasi($sec)
+{
     if ($sec < 0)
         $sec = 0;
     if ($sec < 60)
@@ -48,7 +49,8 @@ $riwayat = mysqli_query($conn, "
 
         body {
             font-family: Arial, sans-serif;
-            background: cadetblue;
+            background: linear-gradient(135deg, teal 0%, cadetblue 100%);
+            min-height: 100vh;
         }
 
         .header {
@@ -67,7 +69,7 @@ $riwayat = mysqli_query($conn, "
         }
 
         .card {
-            background: antiquewhite;
+            background: #e8f4f8;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -162,16 +164,185 @@ $riwayat = mysqli_query($conn, "
         }
 
         @media print {
-            .no-print {
-                display: none;
+
+            /* Sembunyikan semua elemen */
+            body * {
+                visibility: hidden;
             }
 
-            .struk {
-                display: block !important;
-                position: static;
-                transform: none;
-                border: none;
+            /* Tampilkan hanya struk dan isinya */
+            #struk,
+            #struk * {
+                visibility: visible;
             }
+
+            #struk {
+                display: block !important;
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                transform: none !important;
+                border: none !important;
+                box-shadow: none !important;
+                width: 100% !important;
+                z-index: 9999;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* === Perbaikan Tampilan === */
+
+        /* Tombol Tambah */
+        .btn-tambah {
+            background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
+            border: none;
+            box-shadow: 0 3px 8px rgba(39, 174, 96, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-tambah:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+            background: linear-gradient(135deg, #219150, #27ae60) !important;
+        }
+
+        /* Tombol Edit & Hapus */
+        .btn {
+            transition: all 0.2s;
+        }
+
+        .btn[style*="f39c12"],
+        button[style*="f39c12"] {
+            background: #f39c12 !important;
+            border: none;
+            box-shadow: 0 2px 6px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn-danger {
+            box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-success {
+            box-shadow: 0 2px 6px rgba(46, 204, 113, 0.3);
+        }
+
+        /* Hover baris tabel */
+        tbody tr:hover {
+            background: #f0f4f8 !important;
+            transition: background 0.15s;
+        }
+
+        /* Header tabel */
+        th {
+            letter-spacing: 0.5px;
+        }
+
+        /* Card shadow lebih dalam */
+        .card {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
+            border-radius: 12px !important;
+        }
+
+        /* Badge jenis/role */
+        td .badge-motor {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d5f5e3;
+            color: #1e8449;
+        }
+
+        td .badge-mobil {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d6eaf8;
+            color: #1a5276;
+        }
+
+        td .badge-lainnya {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fdebd0;
+            color: #784212;
+        }
+
+        td .badge-admin {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fadbd8;
+            color: #922b21;
+        }
+
+        td .badge-petugas {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d1f2eb;
+            color: #0e6655;
+        }
+
+        td .badge-owner {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d6eaf8;
+            color: #1a5276;
+        }
+
+        td .badge-aktif {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d5f5e3;
+            color: #1e8449;
+        }
+
+        td .badge-nonaktif {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fadbd8;
+            color: #922b21;
+        }
+
+        /* Garis aksen atas card */
+        .card::before {
+            content: '';
+            display: block;
+            height: 4px;
+            border-radius: 12px 12px 0 0;
+            background: linear-gradient(90deg, #2c3e50, #3498db);
+            margin: -30px -30px 20px -30px;
+        }
+
+        /* Input focus */
+        input:focus,
+        select:focus {
+            border-color: #3498db !important;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15) !important;
+            outline: none;
         }
     </style>
 </head>
@@ -180,6 +351,15 @@ $riwayat = mysqli_query($conn, "
     <div class="header no-print">
         <h1>Riwayat Transaksi</h1>
         <div>
+            <span style="color:white; font-size:14px;">
+                <strong><?php echo $_SESSION['nama_lengkap']; ?></strong>
+                <span style="display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:bold; text-transform:uppercase; margin-left:8px;
+                    background:<?php echo $_SESSION['role'] == 'admin' ? '#ff6b6b' : ($_SESSION['role'] == 'petugas' ? '#4ecdc4' : '#45b7d1'); ?>;
+                    color:white;">
+                    <?php echo $_SESSION['role']; ?>
+                </span>
+            </span>
+
             <a href="transaksi.php" class="btn">Input Transaksi</a>
             <a href="../dashboard.php" class="btn">Kembali</a>
             <a href="../logout.php" class="btn btn-danger">Logout</a>
@@ -215,7 +395,7 @@ $riwayat = mysqli_query($conn, "
                             <td><?php echo date('d/m/Y H:i', strtotime($row['waktu_keluar'])); ?></td>
                             <td><?php echo $row['durasi_jam']; ?> jam</td>
                             <td>Rp <?php echo number_format($row['biaya_total'], 0, ',', '.'); ?></td>
-                            <td><?php echo $row['petugas']; ?>  
+                            <td><?php echo $row['petugas']; ?>
                                 <button class="btn" onclick="cetakStruk(
                                 '<?php echo $row['id_parkir']; ?>',
                                 '<?php echo $row['plat_nomor']; ?>',
@@ -288,6 +468,11 @@ $riwayat = mysqli_query($conn, "
             document.getElementById('struk').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
+    </script>
+    <script>
+        document.addEventListener('keydown', function (e) {
+            if (e.altKey && (e.key === 'd' || e.key === 'D')) { e.preventDefault(); window.location.href = '../dashboard.php'; }
+        });
     </script>
 </body>
 

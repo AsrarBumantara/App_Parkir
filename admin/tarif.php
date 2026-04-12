@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-$result = mysqli_query($conn, "SELECT * FROM tb_tarif ORDER BY id_tarif DESC");
+$result = mysqli_query($conn, "SELECT * FROM tb_tarif ORDER BY id_tarif ASC");
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -71,7 +71,8 @@ $result = mysqli_query($conn, "SELECT * FROM tb_tarif ORDER BY id_tarif DESC");
 
         body {
             font-family: Arial, sans-serif;
-            background: cadetblue;
+            background: linear-gradient(135deg, teal 0%, cadetblue 100%);
+            min-height: 100vh;
         }
 
         .header {
@@ -90,7 +91,7 @@ $result = mysqli_query($conn, "SELECT * FROM tb_tarif ORDER BY id_tarif DESC");
         }
 
         .card {
-            background: antiquewhite;
+            background: #e8f4f8;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -153,7 +154,7 @@ $result = mysqli_query($conn, "SELECT * FROM tb_tarif ORDER BY id_tarif DESC");
         }
 
         th {
-            background: #667eea;
+            background: #2c3e50;
             color: white;
         }
 
@@ -210,6 +211,158 @@ $result = mysqli_query($conn, "SELECT * FROM tb_tarif ORDER BY id_tarif DESC");
             font-weight: bold;
             cursor: pointer;
         }
+
+        /* === Perbaikan Tampilan === */
+
+        /* Tombol Tambah */
+        .btn-tambah {
+            background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
+            border: none;
+            box-shadow: 0 3px 8px rgba(39, 174, 96, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-tambah:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+            background: linear-gradient(135deg, #219150, #27ae60) !important;
+        }
+
+        /* Tombol Edit & Hapus */
+        .btn {
+            transition: all 0.2s;
+        }
+
+        .btn[style*="f39c12"],
+        button[style*="f39c12"] {
+            background: #f39c12 !important;
+            border: none;
+            box-shadow: 0 2px 6px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn-danger {
+            box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-success {
+            box-shadow: 0 2px 6px rgba(46, 204, 113, 0.3);
+        }
+
+        /* Hover baris tabel */
+        tbody tr:hover {
+            background: #f0f4f8 !important;
+            transition: background 0.15s;
+        }
+
+        /* Header tabel */
+        th {
+            letter-spacing: 0.5px;
+        }
+
+        /* Card shadow lebih dalam */
+        .card {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
+            border-radius: 12px !important;
+        }
+
+        /* Badge jenis/role */
+        td .badge-motor {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d5f5e3;
+            color: #1e8449;
+        }
+
+        td .badge-mobil {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d6eaf8;
+            color: #1a5276;
+        }
+
+        td .badge-lainnya {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fdebd0;
+            color: #784212;
+        }
+
+        td .badge-admin {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fadbd8;
+            color: #922b21;
+        }
+
+        td .badge-petugas {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d1f2eb;
+            color: #0e6655;
+        }
+
+        td .badge-owner {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d6eaf8;
+            color: #1a5276;
+        }
+
+        td .badge-aktif {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d5f5e3;
+            color: #1e8449;
+        }
+
+        td .badge-nonaktif {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fadbd8;
+            color: #922b21;
+        }
+
+        /* Garis aksen atas card */
+        .card::before {
+            content: '';
+            display: block;
+            height: 4px;
+            border-radius: 12px 12px 0 0;
+            background: linear-gradient(90deg, #2c3e50, #3498db);
+            margin: -30px -30px 20px -30px;
+        }
+
+        /* Input focus */
+        input:focus,
+        select:focus {
+            border-color: #3498db !important;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15) !important;
+            outline: none;
+        }
     </style>
 </head>
 
@@ -217,6 +370,15 @@ $result = mysqli_query($conn, "SELECT * FROM tb_tarif ORDER BY id_tarif DESC");
     <div class="header">
         <h1>Manajemen Tarif Parkir</h1>
         <div>
+            <span style="color:white; font-size:14px;">
+                <strong><?php echo $_SESSION['nama_lengkap']; ?></strong>
+                <span style="display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:bold; text-transform:uppercase; margin-left:8px;
+                    background:<?php echo $_SESSION['role'] == 'admin' ? '#ff6b6b' : ($_SESSION['role'] == 'petugas' ? '#4ecdc4' : '#45b7d1'); ?>;
+                    color:white;">
+                    <?php echo $_SESSION['role']; ?>
+                </span>
+            </span>
+
             <a href="../dashboard.php" class="btn">Kembali</a>
             <a href="../logout.php" class="btn btn-danger">Logout</a>
         </div>
@@ -244,7 +406,9 @@ $result = mysqli_query($conn, "SELECT * FROM tb_tarif ORDER BY id_tarif DESC");
                     <?php while ($row = mysqli_fetch_assoc($result)): ?>
                         <tr>
                             <td><?php echo $row['id_tarif']; ?></td>
-                            <td><?php echo $row['jenis_kendaraan']; ?></td>
+                            <td><span
+                                    class="badge-<?php echo $row['jenis_kendaraan']; ?>"><?php echo $row['jenis_kendaraan']; ?></span>
+                            </td>
                             <td>Rp <?php echo number_format($row['tarif_per_jam'], 0, ',', '.'); ?></td>
                             <td>
                                 <button class="btn"
@@ -315,6 +479,11 @@ $result = mysqli_query($conn, "SELECT * FROM tb_tarif ORDER BY id_tarif DESC");
             document.getElementById('edit_tarif').value = tarif;
             document.getElementById('modalEdit').style.display = 'block';
         }
+    </script>
+    <script>
+        document.addEventListener('keydown', function (e) {
+            if (e.altKey && (e.key === 'd' || e.key === 'D')) { e.preventDefault(); window.location.href = '../dashboard.php'; }
+        });
     </script>
 </body>
 

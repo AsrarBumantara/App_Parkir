@@ -3,6 +3,7 @@ require '../koneksi.php';
 checkRole(['petugas']);
 
 $message = '';
+$struk_data = null; // data struk untuk ditampilkan setelah kendaraan keluar
 
 // Menformat durasi dalam jam dan menit
 function durasiFormat($seconds)
@@ -113,6 +114,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['keluar'])) {
 
     logAktivitas($conn, $_SESSION['user_id'], 'Kendaraan keluar: ' . $data['plat_nomor'] . ' - Rp ' . number_format($biayaTotal, 0, ',', '.'));
     $message = 'Kendaraan keluar. Total biaya: Rp ' . number_format($biayaTotal, 0, ',', '.');
+
+    // Simpan data untuk struk
+    $struk_data = [
+        'id_parkir' => $id_parkir,
+        'plat_nomor' => $data['plat_nomor'],
+        'jenis' => $data['jenis_kendaraan'],
+        'waktu_masuk' => $data['waktu_masuk'],
+        'waktu_keluar' => $waktuKeluarStr,
+        'durasi_jam' => $durasiJam,
+        'tarif_per_jam' => $tarifPerJam,
+        'biaya_total' => $biayaTotal,
+    ];
     mysqli_stmt_close($stmt);
     mysqli_stmt_close($stmt2);
 }
@@ -148,7 +161,8 @@ $parkir_aktif = mysqli_query($conn, "
 
         body {
             font-family: Arial, sans-serif;
-            background: cadetblue;
+            background: linear-gradient(135deg, teal 0%, cadetblue 100%);
+            min-height: 100vh;
         }
 
         .header {
@@ -167,7 +181,7 @@ $parkir_aktif = mysqli_query($conn, "
         }
 
         .card {
-            background: antiquewhite;
+            background: #e8f4f8;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -270,6 +284,158 @@ $parkir_aktif = mysqli_query($conn, "
                 grid-template-columns: 1fr;
             }
         }
+
+        /* === Perbaikan Tampilan === */
+
+        /* Tombol Tambah */
+        .btn-tambah {
+            background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
+            border: none;
+            box-shadow: 0 3px 8px rgba(39, 174, 96, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-tambah:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+            background: linear-gradient(135deg, #219150, #27ae60) !important;
+        }
+
+        /* Tombol Edit & Hapus */
+        .btn {
+            transition: all 0.2s;
+        }
+
+        .btn[style*="f39c12"],
+        button[style*="f39c12"] {
+            background: #f39c12 !important;
+            border: none;
+            box-shadow: 0 2px 6px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn-danger {
+            box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-success {
+            box-shadow: 0 2px 6px rgba(46, 204, 113, 0.3);
+        }
+
+        /* Hover baris tabel */
+        tbody tr:hover {
+            background: #f0f4f8 !important;
+            transition: background 0.15s;
+        }
+
+        /* Header tabel */
+        th {
+            letter-spacing: 0.5px;
+        }
+
+        /* Card shadow lebih dalam */
+        .card {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
+            border-radius: 12px !important;
+        }
+
+        /* Badge jenis/role */
+        td .badge-motor {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d5f5e3;
+            color: #1e8449;
+        }
+
+        td .badge-mobil {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d6eaf8;
+            color: #1a5276;
+        }
+
+        td .badge-lainnya {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fdebd0;
+            color: #784212;
+        }
+
+        td .badge-admin {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fadbd8;
+            color: #922b21;
+        }
+
+        td .badge-petugas {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d1f2eb;
+            color: #0e6655;
+        }
+
+        td .badge-owner {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d6eaf8;
+            color: #1a5276;
+        }
+
+        td .badge-aktif {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #d5f5e3;
+            color: #1e8449;
+        }
+
+        td .badge-nonaktif {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fadbd8;
+            color: #922b21;
+        }
+
+        /* Garis aksen atas card */
+        .card::before {
+            content: '';
+            display: block;
+            height: 4px;
+            border-radius: 12px 12px 0 0;
+            background: linear-gradient(90deg, #2c3e50, #3498db);
+            margin: -30px -30px 20px -30px;
+        }
+
+        /* Input focus */
+        input:focus,
+        select:focus {
+            border-color: #3498db !important;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15) !important;
+            outline: none;
+        }
     </style>
 </head>
 
@@ -277,6 +443,15 @@ $parkir_aktif = mysqli_query($conn, "
     <div class="header">
         <h1>Transaksi Parkir</h1>
         <div>
+            <span style="color:white; font-size:14px;">
+                <strong><?php echo $_SESSION['nama_lengkap']; ?></strong>
+                <span style="display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:bold; text-transform:uppercase; margin-left:8px;
+                    background:<?php echo $_SESSION['role'] == 'admin' ? '#ff6b6b' : ($_SESSION['role'] == 'petugas' ? '#4ecdc4' : '#45b7d1'); ?>;
+                    color:white;">
+                    <?php echo $_SESSION['role']; ?>
+                </span>
+            </span>
+
             <a href="../dashboard.php" class="btn">Kembali</a>
             <a href="../logout.php" class="btn btn-danger">Logout</a>
         </div>
@@ -374,6 +549,96 @@ $parkir_aktif = mysqli_query($conn, "
             </div>
         </div>
     </div>
+    <script>
+        function cetakStruk(id, plat, jenis, masuk, keluar, durasi, total, tarif) {
+            document.getElementById('s_id').textContent = id;
+            document.getElementById('s_plat').textContent = plat;
+            document.getElementById('s_jenis').textContent = jenis;
+            document.getElementById('s_masuk').textContent = new Date(masuk).toLocaleString('id-ID');
+            document.getElementById('s_keluar').textContent = new Date(keluar).toLocaleString('id-ID');
+            document.getElementById('s_durasi').textContent = durasi + ' jam';
+            document.getElementById('s_tarif').textContent = 'Rp ' + parseInt(tarif).toLocaleString('id-ID');
+            document.getElementById('s_total').textContent = 'Rp ' + parseInt(total).toLocaleString('id-ID');
+            document.getElementById('struk').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+        function tutupStruk() {
+            document.getElementById('struk').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+
+    <!-- Overlay -->
+    <div id="overlay" onclick="tutupStruk()"
+        style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999;">
+    </div>
+
+    <!-- Struk Modal -->
+    <div id="struk"
+        style="display:<?php echo $struk_data ? 'block' : 'none'; ?>;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:30px;border:2px solid #333;width:340px;box-shadow:0 10px 30px rgba(0,0,0,0.3);z-index:1000;font-family:monospace;">
+        <h3 style="text-align:center;border-bottom:2px dashed #333;padding-bottom:10px;margin-bottom:15px;">STRUK PARKIR
+        </h3>
+        <div style="display:flex;justify-content:space-between;margin:6px 0;"><span>ID Parkir:</span><span
+                id="s_id"><?php echo $struk_data ? $struk_data['id_parkir'] : ''; ?></span></div>
+        <div style="border-top:1px dashed #ccc;margin:10px 0;"></div>
+        <div style="display:flex;justify-content:space-between;margin:6px 0;"><span>Plat Nomor:</span><span
+                id="s_plat"><?php echo $struk_data ? $struk_data['plat_nomor'] : ''; ?></span></div>
+        <div style="display:flex;justify-content:space-between;margin:6px 0;"><span>Jenis:</span><span
+                id="s_jenis"><?php echo $struk_data ? $struk_data['jenis'] : ''; ?></span></div>
+        <div style="border-top:1px dashed #ccc;margin:10px 0;"></div>
+        <div style="display:flex;justify-content:space-between;margin:6px 0;"><span>Waktu Masuk:</span><span
+                id="s_masuk"><?php echo $struk_data ? date('d/m/Y H:i', strtotime($struk_data['waktu_masuk'])) : ''; ?></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin:6px 0;"><span>Waktu Keluar:</span><span
+                id="s_keluar"><?php echo $struk_data ? date('d/m/Y H:i', strtotime($struk_data['waktu_keluar'])) : ''; ?></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin:6px 0;"><span>Durasi:</span><span
+                id="s_durasi"><?php echo $struk_data ? $struk_data['durasi_jam'] . ' jam' : ''; ?></span></div>
+        <div style="display:flex;justify-content:space-between;margin:6px 0;"><span>Tarif/Jam:</span><span
+                id="s_tarif"><?php echo $struk_data ? 'Rp ' . number_format($struk_data['tarif_per_jam'], 0, ',', '.') : ''; ?></span>
+        </div>
+        <div
+            style="display:flex;justify-content:space-between;font-weight:bold;font-size:18px;border-top:2px dashed #333;padding-top:10px;margin-top:8px;">
+            <span>TOTAL:</span><span
+                id="s_total"><?php echo $struk_data ? 'Rp ' . number_format($struk_data['biaya_total'], 0, ',', '.') : ''; ?></span>
+        </div>
+        <div
+            style="text-align:center;font-size:12px;color:#666;margin-top:14px;border-top:1px dashed #ccc;padding-top:10px;">
+            Terima kasih atas kunjungan Anda
+        </div>
+        <div class="no-print" style="margin-top:15px;text-align:center;display:flex;gap:10px;">
+            <button onclick="window.print()"
+                style="flex:1;padding:10px;background:#2E3440;color:white;border:none;border-radius:5px;cursor:pointer;font-size:14px;">🖨️
+                Print</button>
+            <button onclick="tutupStruk()"
+                style="flex:1;padding:10px;background:#e74c3c;color:white;border:none;border-radius:5px;cursor:pointer;font-size:14px;">Tutup</button>
+        </div>
+    </div>
+
+    <style>
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            #struk {
+                display: block !important;
+                position: static;
+                transform: none;
+                border: none;
+                box-shadow: none;
+            }
+
+            #overlay {
+                display: none !important;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('keydown', function (e) {
+            if (e.altKey && (e.key === 'd' || e.key === 'D')) { e.preventDefault(); window.location.href = '../dashboard.php'; }
+        });
+    </script>
 </body>
 
 </html>
